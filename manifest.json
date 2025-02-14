@@ -23,9 +23,16 @@
   ],
   "host_permissions": [
     "http://localhost/*",
-    "http://localhost:8080/*"
+    "http://localhost:8080/*",
+    "http://[::1]/*"
   ],
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost/*", "http://localhost:8080/*", "http://[::1]/*"],
+      "js": ["content.js"]
+    }
+  ]
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Token Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Login to System</h1>
+    <div id="status-message"></div>
+    <div id="token-display" class="hidden"></div>
+    
+    <form id="login-form">
+      <div class="form-group">
+        <label for="userType">User Type:</label>
+        <input type="text" id="userType" value="STAFF" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="e.g., erpadmin" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+      </div>
+      
+      <button type="submit" id="login-btn">Login</button>
+    </form>
+    
+    <div class="debug-toggle-container">
+      <button id="debug-toggle" class="debug-toggle">Show Debug Panel</button>
+    </div>
+    
+    <div id="debug-panel" class="debug-panel hidden">
+      <div class="debug-header">
+        <h3>Debug Logs</h3>
+        <button id="clear-logs" class="clear-logs">Clear</button>
+      </div>
+      <div id="debug-logs" class="debug-logs"></div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

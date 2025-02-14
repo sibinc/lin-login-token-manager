@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
           const accessToken = response.data.data.accessToken;
           
           // Display the token
-          tokenDisplay.textContent = `Token: ${accessToken}`;
+          // tokenDisplay.textContent = `Token: ${accessToken}`;
+          tokenDisplay.innerHTML = `<a href="http://localhost:8080/examcontroller/home?redir=true" target="_blank">Click here to login</a>`;
           tokenDisplay.className = 'token-box';
           
           // Send message to background script to store token

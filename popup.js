@@ -97,13 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
             token: accessToken
             }, function(tokenResponse) {
             if (tokenResponse && tokenResponse.success) {
-              // showStatus('Login successful!.', 'success');
-              // Reload the URL in the current tab
-              chrome.tabs.update({ url: 'http://localhost:8080/examcontroller/home?redir=true' });
-              // If debug panel is open, refresh logs
-              if (!document.getElementById('debug-panel').classList.contains('hidden')) {
-              loadDebugLogs();
-              }
+                // Hide login form and show success message
+                loginForm.style.display = 'none';
+                // Reload the URL in the current tab
+                chrome.tabs.update({ url: 'http://localhost:8080/examcontroller/home?redir=true' });
+                // If debug panel is open, refresh logs
+                if (!document.getElementById('debug-panel').classList.contains('hidden')) {
+                loadDebugLogs();
+                }
             } else {
               showStatus('Error: ' + (tokenResponse?.error || 'Failed to store token'), 'error');
             }

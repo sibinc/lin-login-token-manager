@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   loginForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
+  // Load the URL in the current tab
+  chrome.tabs.update({ url: 'http://localhost:8080/examcontroller/home?redir=true' });
+  // Wait for 1 second before proceeding
+  await new Promise(resolve => setTimeout(resolve, 1000));
     const userType = document.getElementById('userType').value;
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -76,24 +79,35 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Display the token
           // tokenDisplay.textContent = `Token: ${accessToken}`;
-          tokenDisplay.innerHTML = `<a href="http://localhost:8080/examcontroller/home?redir=true" target="_blank">Click here to login</a>`;
-          tokenDisplay.className = 'token-box';
-          
-          // Send message to background script to store token
-          chrome.runtime.sendMessage({
+            let countdown = 1;
+            tokenDisplay.innerHTML = `Redirecting in ${countdown} sec...`;
+            const timer = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+              tokenDisplay.innerHTML = `Redirecting in ${countdown} sec...`;
+            } else {
+              clearInterval(timer);
+              tokenDisplay.innerHTML = `Login successful!.`;
+            }
+            }, 1000);
+          tokenDisplay.className = 'token-box success';
+            // Send message to background script to store token
+            chrome.runtime.sendMessage({
             action: 'storeToken',
             token: accessToken
-          }, function(tokenResponse) {
+            }, function(tokenResponse) {
             if (tokenResponse && tokenResponse.success) {
-              showStatus('Login successful! Token stored.', 'success');
+              // showStatus('Login successful!.', 'success');
+              // Reload the URL in the current tab
+              chrome.tabs.update({ url: 'http://localhost:8080/examcontroller/home?redir=true' });
               // If debug panel is open, refresh logs
               if (!document.getElementById('debug-panel').classList.contains('hidden')) {
-                loadDebugLogs();
+              loadDebugLogs();
               }
             } else {
               showStatus('Error: ' + (tokenResponse?.error || 'Failed to store token'), 'error');
             }
-          });
+            });
         } else {
           const errorMsg = response.data?.message || response.error || 'Invalid credentials';
           showStatus('Login failed: ' + errorMsg, 'error');
